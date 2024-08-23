@@ -1,0 +1,61 @@
+
+
+<mat-dialog-content class="mat-typography">
+    <form (ngSubmit)="submitForm(form)" [formGroup]="form">
+        <div class="body">
+            <mat-form-field class="example-full-width">
+                <mat-label>Title</mat-label>
+                <input formControlName="title" matInput>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Date</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="date">
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <div class="times">
+                <mat-form-field>
+                    <mat-label>From</mat-label>
+                    <mat-select 
+                        formControlName="timeStart"
+                        (selectionChange)="handleSelection($event,'from')">
+                      @for (item of timeSlotsFrom(); track $index) {
+                        <mat-option [value]="item">{{item}}</mat-option>
+                      }
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field [class.disabled]="timeSlotsTo().length < 1"                  >
+                    <mat-label>To</mat-label>
+                    <mat-select 
+                        formControlName="timeEnd"
+                        (selectionChange)="handleSelection($event,'to')">
+                      @for (item of timeSlotsTo(); track $index) {
+                        <mat-option [value]="item">{{item}}</mat-option>
+                      }
+                    </mat-select>
+                  </mat-form-field>
+            </div>
+        </div>
+
+        <div class="footer">
+
+          <div class="left">
+            @if(data && data.isEdit){
+              <mat-icon (click)="removeAppointment()">delete</mat-icon>
+            }
+          </div>
+
+          <div class="right">
+              <button mat-button mat-dialog-close type="button">Cancel</button>
+              <button 
+                  mat-raised-button 
+                  cdkFocusInitial
+                  type="submit"
+                  >Save
+              </button>
+            </div>
+          </div>
+    </form>
+</mat-dialog-content>

@@ -1,0 +1,32 @@
+<section>
+    <div class="day">
+        <p class="selected">{{selectedDay | date : 'EEEE d'}}</p>
+
+        <div class="content">
+
+        </div>
+    </div>
+    <div class="times">
+        
+        @for (item of timeSlots(); track $index) {           
+            <div class="time" [class.mid-item]="!item.clickable">
+                <p class="hour">{{item.time}}</p>
+                @if(validProperty(item)){
+                    @for (item of getAppointments()[keyDate!][item.time]; track $index) {
+                        <div class="appointment">
+                            
+                            <p 
+                                (click)="onAppointmentClick(item)" 
+                                [style.height]="item.range * 15 + 'px'">
+                                {{item.title}}
+                            </p>
+
+                        </div>
+                    }
+                }
+                
+            </div>
+        }
+    </div>
+
+</section>

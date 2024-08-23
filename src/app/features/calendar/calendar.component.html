@@ -1,0 +1,51 @@
+<section>
+    <div class="sides">
+
+        <div class="left">
+            <button mat-raised-button (click)="setToday()">Today</button>
+            <button mat-raised-button (click)="addAppointment()">+ Add</button>
+
+            <mat-card class="demo-inline-calendar-card">
+                <mat-calendar 
+                    [(selected)]="selectedDate"
+                ></mat-calendar>
+            </mat-card>
+        </div>
+        <div class="right">
+            <div class="top">
+                <h2>{{selectedDate() | date}}</h2>
+                <mat-button-toggle-group [formControl]="scheduleControl">
+                    <mat-button-toggle value="day">Day</mat-button-toggle>
+                    <mat-button-toggle value="week">Week</mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
+            <div class="bottom">
+
+                <div class="btns-wrapper">
+                    <button mat-button (click)="goToPreviousDay()">
+                        <mat-icon>keyboard_arrow_left</mat-icon>
+                    </button>
+                    <button mat-button (click)="goToNext()">
+                        <mat-icon>keyboard_arrow_right</mat-icon>
+                    </button>
+                </div>
+
+                <ng-container 
+                    [ngTemplateOutlet]="
+                        scheduleControlValue == 'day' ? day : week
+                    "
+                ></ng-container>
+
+                <ng-template #day>
+                    <app-day-schedule 
+                        [selectedDay]="selectedDate()"
+                        [keyDate]="selectedDate() | date : 'dd/MM/yyyy'"
+                    ></app-day-schedule>
+                </ng-template>
+                <ng-template #week>
+                    <app-week-schedule></app-week-schedule>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</section>

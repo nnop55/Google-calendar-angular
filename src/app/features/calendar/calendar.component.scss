@@ -1,0 +1,36 @@
+.demo-inline-calendar-card {
+  width: 220px;
+}
+
+.sides {
+  display: flex;
+  gap: 15px;
+
+  .right {
+    width: 100%;
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+}
+
+h2 {
+  font-weight: 500;
+}
+
+mat-card {
+  margin-top: 15px;
+}
+
+.bottom {
+  width: 85%;
+
+  .btns-wrapper {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+}
