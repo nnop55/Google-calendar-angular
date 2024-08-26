@@ -14,7 +14,7 @@ import {
 import { MatSelectModule } from '@angular/material/select';
 import { DatePipe } from '@angular/common';
 import { AppointmentService } from '../../services/appointment.service';
-import { AppointmentForm } from '../../utils/unions';
+import { Appointment, AppointmentForm } from '../../utils/unions';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -38,8 +38,8 @@ import { MatIconModule } from '@angular/material/icon';
 export class AppointmentComponent {
   form!: FormGroup;
 
-  timeSlotsFrom = signal<any[]>([]);
-  timeSlotsTo = signal<any[]>([]);
+  timeSlotsFrom = signal<string[]>([]);
+  timeSlotsTo = signal<string[]>([]);
 
   readonly datePipe = inject(DatePipe)
   readonly apService = inject(AppointmentService)
@@ -47,8 +47,9 @@ export class AppointmentComponent {
   range: number = 0;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: {
-      appointment: any,
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      appointment: Appointment,
       isEdit: boolean
     },
     public dialogRef: MatDialogRef<AppointmentComponent>

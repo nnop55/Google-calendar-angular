@@ -1,4 +1,4 @@
-import { DatePipe, JsonPipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { Component, inject, Input, signal } from '@angular/core';
 import { AppointmentService } from '../../services/appointment.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -8,7 +8,7 @@ import { ITimeSlotsView } from '../../utils/unions';
 @Component({
   selector: 'app-day-schedule',
   standalone: true,
-  imports: [DatePipe, JsonPipe],
+  imports: [DatePipe],
   templateUrl: './day-schedule.component.html',
   styleUrl: './day-schedule.component.scss'
 })
@@ -27,7 +27,7 @@ export class DayScheduleComponent {
     this.getHours()
   }
 
-  validProperty(item: any) {
+  validProperty(item: ITimeSlotsView) {
     if (!this.keyDate) {
       return
     }
