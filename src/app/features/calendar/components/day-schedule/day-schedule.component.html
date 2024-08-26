@@ -8,11 +8,13 @@
     </div>
     <div class="times">
         
-        @for (item of timeSlots(); track $index) {           
-            <div class="time" [class.mid-item]="!item.clickable">
-                <p class="hour">{{item.time}}</p>
-                @if(validProperty(item)){
-                    @for (item of getAppointments()[keyDate!][item.time]; track $index) {
+        @for (slot of timeSlots(); track $index) 
+        {           
+            <div class="time" [class.mid-item]="!slot.clickable">
+                <p class="hour">{{slot.time}}</p>
+                @if(validProperty(slot)){
+
+                    @for (item of getAppointments()[keyDate!][slot.time]; track $index) {
                         <div class="appointment">
                             
                             <p 

@@ -34,7 +34,7 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class CalendarComponent {
   selectedDate = model<Date>(new Date());
-  scheduleControl = new FormControl('day');
+  scheduleControl = new FormControl('week');
 
   @ViewChild(MatCalendar) calendar!: MatCalendar<Date>;
   readonly dialog = inject(MatDialog);
@@ -46,7 +46,7 @@ export class CalendarComponent {
     this.calendar.activeDate = today;
   }
 
-  goToPreviousDay(): void {
+  goToPrevious(): void {
     switch (this.scheduleControlValue) {
       case 'day':
         this.selectedDate().setDate(this.selectedDate().getDate() - 1);

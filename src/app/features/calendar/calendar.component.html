@@ -22,7 +22,7 @@
             <div class="bottom">
 
                 <div class="btns-wrapper">
-                    <button mat-button (click)="goToPreviousDay()">
+                    <button mat-button (click)="goToPrevious()">
                         <mat-icon>keyboard_arrow_left</mat-icon>
                     </button>
                     <button mat-button (click)="goToNext()">
@@ -43,7 +43,9 @@
                     ></app-day-schedule>
                 </ng-template>
                 <ng-template #week>
-                    <app-week-schedule></app-week-schedule>
+                    <app-week-schedule
+                        [selectedWeek]="selectedDate()"
+                    ></app-week-schedule>
                 </ng-template>
             </div>
         </div>

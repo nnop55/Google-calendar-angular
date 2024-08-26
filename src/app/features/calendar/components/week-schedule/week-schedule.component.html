@@ -1,1 +1,48 @@
-<p>week-schedule works!</p>
+<div class="calendar-table-container">
+    <table class="calendar-table">
+        <thead>
+        <tr>
+            <th>Time</th>
+            @for (day of weekDays(); track $index) {
+                <th>{{ day.title }}</th>
+            }
+        </tr>
+        </thead>
+        <tbody>
+        @for (slot of timeSlots(); track $index) {
+            <tr>
+                <div [class.mid-item]="!slot.clickable">
+                    <td class="hour-cell">
+                        <p class="hour">
+                            {{ slot.time }}
+                        </p>
+                    </td>
+                </div>
+                
+                
+                @for (day of weekDays(); track $index) {
+                    <td class="calendar-cell">
+                            @if(validProperty(day.value, slot.time)){
+
+                                @for (item of getAppointments()[day.value!][slot.time]; track $index) {
+                                    <div 
+                                        class="appointment" 
+                                        [style.height]="item.range * 26 + 'px'"
+                                        (click)="onAppointmentClick(item)"
+                                        >
+                                        
+                                        {{item.title}}
+            
+                                    </div>
+                                }
+                            }
+                    </td>
+                }
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+
+  
