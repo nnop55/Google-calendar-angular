@@ -4,6 +4,7 @@ import { DatePipe } from '@angular/common';
 import { AppointmentService } from '../../services/appointment.service';
 import { AppointmentComponent } from '../appointment/appointment.component';
 import { MatDialog } from '@angular/material/dialog';
+import { SharedService } from '../../services/shared.service';
 
 @Component({
   selector: 'app-week-schedule',
@@ -18,6 +19,7 @@ export class WeekScheduleComponent {
   readonly datePipe = inject(DatePipe)
   readonly dialog = inject(MatDialog);
   readonly apService = inject(AppointmentService)
+  readonly shared = inject(SharedService)
 
   @Input() selectedWeek!: Date;
 
@@ -38,33 +40,11 @@ export class WeekScheduleComponent {
   }
 
   validProperty(keyDate: string, keyTime: string) {
-    if (!keyDate) {
-      return
-    }
-
-    return this.getAppointments()[keyDate]?.hasOwnProperty(keyTime)
+    return this.shared.validProperty(keyDate, keyTime, this.getAppointments)
   }
 
   getHours() {
-    const startHour = 9;
-    const endHour = 21;
-
-    for (let hour = startHour; hour <= endHour; hour++) {
-      for (let minute = 0; minute < 60; minute += 15) {
-        const time = new Date();
-        time.setHours(hour);
-        time.setMinutes(minute);
-        time.setSeconds(0);
-
-        const formattedTime = time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        const property = {
-          time: formattedTime,
-          clickable: formattedTime[3] === '0'
-        } as ITimeSlotsView;
-
-        this.timeSlots.update((state) => [...state, property]);
-      }
-    }
+    this.shared.getHours(this.timeSlots)
   }
 
   updateWeekDays() {

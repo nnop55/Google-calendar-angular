@@ -70,22 +70,24 @@ export class AppointmentComponent {
     })
   }
 
+  get appointment() {
+    return this.data.appointment
+  }
+
   setFormValues() {
     if (!this.data?.isEdit) {
       return
     }
 
-    const appointment = this.data.appointment
-
     this.form.patchValue({
-      title: appointment.title,
-      date: appointment.date,
-      timeStart: appointment.timeStart,
-      timeEnd: appointment.timeEnd
+      title: this.appointment.title,
+      date: this.appointment.date,
+      timeStart: this.appointment.timeStart,
+      timeEnd: this.appointment.timeEnd
     })
 
-    this.getSlotsTo(appointment.timeStart);
-    this.range = appointment.range
+    this.getSlotsTo(this.appointment.timeStart);
+    this.range = this.appointment.range
   }
 
   getSlotsFrom() {
@@ -126,9 +128,10 @@ export class AppointmentComponent {
         this.getSlotsTo(ev.value)
         if (this.f['timeEnd']?.value) {
           this.getRange(this.f['timeEnd']?.value)
-        }
-        if (!this.timeSlotsTo().includes(this.f['timeEnd']?.value)) {
-          this.f['timeEnd'].reset()
+
+          if (!this.timeSlotsTo().includes(this.f['timeEnd']?.value)) {
+            this.f['timeEnd'].reset()
+          }
         }
         break;
       case 'to':
@@ -138,10 +141,8 @@ export class AppointmentComponent {
   }
 
   removeAppointment() {
-    const appointment = this.data.appointment;
-
-    const date = this.datePipe.transform(appointment.date, 'dd/MM/yyyy') ?? ''
-    const hour = appointment.timeStart;
+    const date = this.datePipe.transform(this.appointment.date, 'dd/MM/yyyy') ?? ''
+    const hour = this.appointment.timeStart;
 
     this.apService.removeAppointment({ date, hour });
     this.close()

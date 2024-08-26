@@ -12,7 +12,7 @@
         {           
             <div class="time" [class.mid-item]="!slot.clickable">
                 <p class="hour">{{slot.time}}</p>
-                @if(validProperty(slot)){
+                @if(validProperty(slot.time)){
 
                     @for (item of getAppointments()[keyDate!][slot.time]; track $index) {
                         <div class="appointment">
