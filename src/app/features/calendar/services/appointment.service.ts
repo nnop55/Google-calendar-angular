@@ -2,7 +2,7 @@ import { computed, DestroyRef, effect, inject, Injectable, signal } from '@angul
 import { StorageService } from './storage.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Subject } from 'rxjs';
-import { AddAppointment, EditAppointment, RemoveAppointment } from '../utils/unions';
+import { AddAppointment, AppointmentState, DailyAppointments, EditAppointment, RemoveAppointment } from '../utils/unions';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class AppointmentService {
   private destroyRef = inject(DestroyRef);
 
   // state
-  private state = signal<any>({
+  private state = signal<AppointmentState>({
     appointments: {},
     loaded: false,
     error: null,
@@ -93,7 +93,7 @@ export class AppointmentService {
     this.remove$.next(params)
   }
 
-  private setAppointment(existingAppointments: any, params: any) {
+  private setAppointment(existingAppointments: DailyAppointments, params: AddAppointment) {
     return {
       ...existingAppointments,
       [params.date]: {
@@ -103,14 +103,19 @@ export class AppointmentService {
     }
   }
 
-  private updateAppointment(existingAppointments: any, params: any) {
+  private updateAppointment(existingAppointments: DailyAppointments, params: EditAppointment) {
     const newRef = existingAppointments[params.oldDate];
     delete newRef[params.oldHour];
-    existingAppointments[params.date] = newRef[params.hour];
+
+    if (!existingAppointments[params.date]) {
+      existingAppointments[params.date] = {};
+    }
+
+    existingAppointments[params.date][params.hour] = newRef[params.hour];
     return this.setAppointment(existingAppointments, params)
   }
 
-  private deleteAppointment(existingAppointments: any, params: any) {
+  private deleteAppointment(existingAppointments: DailyAppointments, params: RemoveAppointment) {
     const newRef = existingAppointments[params.date];
     delete newRef[params.hour];
     existingAppointments[params.date] = newRef;

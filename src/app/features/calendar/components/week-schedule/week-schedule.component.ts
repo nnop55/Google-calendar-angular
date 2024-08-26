@@ -1,5 +1,5 @@
 import { Component, inject, Input, signal, SimpleChanges } from '@angular/core';
-import { ITimeSlotsView } from '../../utils/unions';
+import { Appointment, ITimeSlotsView, IWeekDaysView } from '../../utils/unions';
 import { DatePipe } from '@angular/common';
 import { AppointmentService } from '../../services/appointment.service';
 import { AppointmentComponent } from '../appointment/appointment.component';
@@ -17,14 +17,14 @@ export class WeekScheduleComponent {
 
   readonly datePipe = inject(DatePipe)
   readonly dialog = inject(MatDialog);
-  appointments = inject(AppointmentService)
+  readonly apService = inject(AppointmentService)
 
   @Input() selectedWeek!: Date;
 
   timeSlots = signal<ITimeSlotsView[]>([]);
-  weekDays = signal<any[]>([]);
+  weekDays = signal<IWeekDaysView[]>([]);
 
-  getAppointments = this.appointments.appointments;
+  getAppointments = this.apService.appointments;
 
   ngOnInit(): void {
     this.getHours();
@@ -37,7 +37,7 @@ export class WeekScheduleComponent {
     }
   }
 
-  validProperty(keyDate: any, keyTime: any) {
+  validProperty(keyDate: string, keyTime: string) {
     if (!keyDate) {
       return
     }
@@ -83,7 +83,7 @@ export class WeekScheduleComponent {
     this.weekDays.set(daysOfWeek);
   }
 
-  onAppointmentClick(appointment: any) {
+  onAppointmentClick(appointment: Appointment) {
     const dialogRef = this.dialog.open(AppointmentComponent, {
       data: {
         appointment,

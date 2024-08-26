@@ -16,12 +16,12 @@ export class DayScheduleComponent {
   @Input() selectedDay!: Date;
   @Input() keyDate!: string | null;
 
-  appointments = inject(AppointmentService)
+  readonly dialog = inject(MatDialog);
+  readonly apService = inject(AppointmentService)
 
   timeSlots = signal<ITimeSlotsView[]>([]);
 
-  getAppointments = this.appointments.appointments;
-  readonly dialog = inject(MatDialog);
+  getAppointments = this.apService.appointments;
 
   ngOnInit(): void {
     this.getHours()

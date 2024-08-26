@@ -1,5 +1,6 @@
 import { inject, Injectable, InjectionToken, PLATFORM_ID } from '@angular/core';
 import { of } from 'rxjs';
+import { DailyAppointments } from '../utils/unions';
 
 export const LOCAL_STORAGE = new InjectionToken<Storage>(
   'window local storage object',
@@ -27,7 +28,7 @@ export class StorageService {
     return of(appointments ? JSON.parse(appointments) : {});
   }
 
-  save(appointments: any[]) {
+  save(appointments: DailyAppointments) {
     this.storage.setItem('TM_APPOINTMENTS', JSON.stringify(appointments));
   }
 

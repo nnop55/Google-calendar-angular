@@ -115,10 +115,20 @@ export class AppointmentComponent {
     this.range = ind + 1
   }
 
+  get f() {
+    return this.form.controls
+  }
+
   handleSelection(ev: any, type: 'from' | 'to') {
     switch (type) {
       case 'from':
         this.getSlotsTo(ev.value)
+        if (this.f['timeEnd']?.value) {
+          this.getRange(this.f['timeEnd']?.value)
+        }
+        if (!this.timeSlotsTo().includes(this.f['timeEnd']?.value)) {
+          this.f['timeEnd'].reset()
+        }
         break;
       case 'to':
         this.getRange(ev.value)
